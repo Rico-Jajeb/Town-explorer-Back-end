@@ -10,6 +10,10 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::prefix('v1')->group(function () {
-    Route::get('/system-info', [SettingController::class, 'index']);
+Route::middleware('throttle:60,1') 
+    ->prefix('v1')
+    ->group(function () {
+        Route::get('/system-info', [SettingController::class, 'index']);
+        Route::put('/system-update', [SettingController::class, 'update']);
 });
+

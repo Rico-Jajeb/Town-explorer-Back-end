@@ -23,4 +23,24 @@ class SettingController extends Controller
         return response()->json(new SettingResource($setting));
     }
 
+
+    public function update(Request $request)
+    {
+        $data = $request->validate([
+            'system_name' => 'required|string|max:255',
+            'system_slogan1' => 'nullable|string|max:255',
+            'system_slogan2' => 'nullable|string|max:255',
+            'facebook_link' => 'nullable|string|max:255',
+            'email_link' => 'nullable|string|max:255',
+            'number' => 'nullable|string|max:50',
+            'system_logo' => 'nullable|string|max:255',
+            'background_img' => 'nullable|string|max:255',
+        ]);
+
+        $info = \App\Models\SettingModel::first();
+        $info->update($data);
+
+        return response()->json(['message' => 'System info updated successfully.']);
+    }
+
 }

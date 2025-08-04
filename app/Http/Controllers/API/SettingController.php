@@ -3,19 +3,31 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\SystemInfoRequest;
 
-use App\Models\SettingModel; 
-
+//RESOURCE
 use App\Http\Resources\SettingResource;
 
+//MODEL
+use App\Models\SettingModel;
 
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\JsonResponse;
+//SERVICE
+use App\Services\Update\UpdateSystemInfoService;
 
 class SettingController extends Controller
 {
-  
+    /**
+     * 
+     * @var App\Services\Setting\UpdateSystemInfoService;
+
+     */
+
+    protected $UpdateSystemInfoService;
+
+    public function __construct(UpdateSystemInfoService $UpdateSystemInfoService,)
+    {
+        $this->UpdateSystemInfoService = $UpdateSystemInfoService;
+    }
 
     public function index()
     {
@@ -23,24 +35,10 @@ class SettingController extends Controller
         return response()->json(new SettingResource($setting));
     }
 
-
-    public function update(Request $request)
+    public function update(SystemInfoRequest $request)
     {
-        $data = $request->validate([
-            'system_name' => 'required|string|max:255',
-            'system_slogan1' => 'nullable|string|max:255',
-            'system_slogan2' => 'nullable|string|max:255',
-            'facebook_link' => 'nullable|string|max:255',
-            'email_link' => 'nullable|string|max:255',
-            'number' => 'nullable|string|max:50',
-            'system_logo' => 'nullable|string|max:255',
-            'background_img' => 'nullable|string|max:255',
-        ]);
-
-        $info = \App\Models\SettingModel::first();
-        $info->update($data);
-
+        $validated = $request->validated();
+        $this->UpdateSystemInfoService->update($validated);
         return response()->json(['message' => 'System info updated successfully.']);
     }
-
 }

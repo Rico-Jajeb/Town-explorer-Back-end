@@ -23,6 +23,7 @@ return [
         'http://localhost:8080', // Vue dev server
         'http://localhost:5173', // Vite dev server (optional)
         'http://192.168.254.169:8000', // Vite dev server (optional)
+        'http://192.168.254.169:5173',
     ],
 
     'allowed_origins_patterns' => [],

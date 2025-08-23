@@ -11,18 +11,10 @@ use App\Http\Controllers\API\SettingController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 
-// Route::get('/user', function (Request $request) {
-//     return $request->user();
-// })->middleware('auth:sanctum');
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
-
-
 
 
 Route::middleware('throttle:60,1') 
@@ -33,13 +25,12 @@ Route::middleware('throttle:60,1')
 });
 
 
-
 Route::prefix('v1')->middleware([
     EnsureFrontendRequestsAreStateful::class,
     'throttle:60,1',
 ])->group(function () {
     Route::post('/registerUser2', [RegisterController::class, 'register']);
-    Route::post('/login2', [LoginController::class, 'login']);
+   
 });
 
 
